@@ -1,29 +1,65 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
-</template>
+  <v-app dark>
+    <v-content>
+      <v-navigation-drawer v-model="drawer" app>
+        <v-toolbar flat class="transparent">
+          <v-list class="pa-0">
+            <v-list-tile avatar>
+              <v-list-tile-avatar>
+              </v-list-tile-avatar>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+              <v-list-tile-content>
+                <v-list-tile-title>Menu</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+        </v-toolbar>
+        <v-list class="pt-0" dense>
+          <v-divider></v-divider>
+
+          <v-list-tile v-for="item in items" :key="item.title">
+            <v-list-tile-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-tile-action>
+
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-navigation-drawer>
+
+      <v-toolbar app>
+        <v-btn flat icon @click="onMenuToggle">
+          <v-icon>menu</v-icon>
+        </v-btn>
+      </v-toolbar>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
+    </v-content>
+    <v-footer app></v-footer>
+  </v-app>
+</template>
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
+
+@Component({})
+export default class App extends Vue {
+  private drawer: boolean | null = null;
+
+  private items = [
+    { title: 'Home', icon: 'dashboard' },
+    { title: 'About', icon: 'question_answer' },
+  ];
+
+  private onMenuToggle() {
+    this.drawer = !this.drawer;
   }
 }
+</script>
+
+<style lang="scss">
 </style>
